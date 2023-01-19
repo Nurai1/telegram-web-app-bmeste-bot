@@ -1,0 +1,30 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+	html {
+		font-size: 16px;
+	}
+
+	html,
+	input,
+	label,
+	select,
+	textarea {
+		color: theme('colors.gray.800');
+	}
+}
+
+@layer utilities {
+	.flex-center {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+	/* custom atoms goes here */
+}
+
+@layer components {
+	/* custom tailwind components goes here */
+}

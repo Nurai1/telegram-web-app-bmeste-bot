@@ -1,0 +1,25 @@
+{
+  "name": "telegram-web-app-bmeste-bot",
+  "version": "1.0.0",
+  "description": "Example HTML-file that contains a basic interaction with Telegram Web Apps API. Based on [Attach Bot](https://t.me/asmico_attach_bot).",
+  "main": "index.html",
+  "scripts": {
+    "tailwind:process": "npx tailwindcss -i ./index.css -o ./build/output.css --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Nurai1/telegram-web-app-bmeste-bot.git"
+  },
+  "author": "bllndman",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Nurai1/telegram-web-app-bmeste-bot/issues"
+  },
+  "homepage": "https://github.com/Nurai1/telegram-web-app-bmeste-bot#readme",
+  "devDependencies": {
+    "tailwindcss": "^3.2.4"
+  },
+  "dependencies": {
+    "preline": "^1.6.0"
+  }
+}
