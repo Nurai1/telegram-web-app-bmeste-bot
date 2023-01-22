@@ -554,31 +554,12 @@ html,
   left: 0px;
 }
 
-.inset-1\/2 {
-  top: 50%;
-  right: 50%;
-  bottom: 50%;
-  left: 50%;
-}
-
-.left-96 {
-  left: 24rem;
-}
-
-.left-2\/3 {
-  left: 66.666667%;
-}
-
-.top-\[45\%\] {
-  top: 45%;
+.right-\[20px\] {
+  right: 20px;
 }
 
 .top-\[43\%\] {
   top: 43%;
-}
-
-.right-\[20px\] {
-  right: 20px;
 }
 
 .z-20 {
