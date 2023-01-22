@@ -49,12 +49,11 @@
 
 <body>
 
-<section>
-    <form id="expenses_form" class="p-4">
-        <label class="block mt-3">
+<section class="p-4">
+        <label class="block mt-3 dark:text-blue-600">
             Chats
             <div id="expenses_chats" class="w-full hs-dropdown relative inline-flex" data-hs-dropdown-auto-close="inside">
-                <button id="hs-dropdown-item-checkbox" type="button" class="hs-dropdown-toggle py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-gray-200 font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm">
+                <button id="hs-dropdown-item-checkbox" type="button" class="hs-dropdown-toggle py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-gray-200 font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 dark:bg-gray-800 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white dark:focus:ring-offset-gray-800 transition-all text-sm">
                     Select chat
                     <svg class="hs-dropdown-open:rotate-180 w-2.5 h-2.5 text-gray-600" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M2 5L8.16086 10.6869C8.35239 10.8637 8.64761 10.8637 8.83914 10.6869L15 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
@@ -67,18 +66,18 @@
         </label>
 
 
-        <label class="block mt-3">
+        <label class="block mt-3 dark:text-red-400">
             Description
             <textarea id="expenses_description" cols="30" rows="3" class="border py-3 px-4 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500" rows="3" placeholder="Enter description"></textarea>
         </label>
-        <label class="block mt-3">
+        <label class="block mt-3 dark:text-red-400">
             Amount
             <input id="expenses_amount" type="number" class="border py-3 px-4 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500">
         </label>
-        <label class="block mt-3">
+        <label class="block mt-3 dark:text-red-400">
             Currencies
             <div id="expenses_currencies" class="w-full hs-dropdown relative inline-flex" data-hs-dropdown-auto-close="inside">
-                <button id="hs-dropdown-item-checkbox" type="button" class="hs-dropdown-toggle py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-gray-200 font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm">
+                <button id="hs-dropdown-item-checkbox" type="button" class="hs-dropdown-toggle py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-gray-200 font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 dark:bg-gray-800 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white dark:focus:ring-offset-gray-800 transition-all text-sm">
                     Select currency
                     <svg class="hs-dropdown-open:rotate-180 w-2.5 h-2.5 text-gray-600" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M2 5L8.16086 10.6869C8.35239 10.8637 8.64761 10.8637 8.83914 10.6869L15 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
@@ -91,8 +90,7 @@
         </label>
 
         <div id="error-message" class="text-red-500 my-4 bg-red-200 rounded"></div>
-        <button type="submit" class="mt-4">Send data</button>
-    </form>
+        <button onclick="sendData()" class="mt-4">Send data</button>
 </section>
 
 <script type="application/javascript">
@@ -108,9 +106,9 @@
     document.querySelector('#themeData')?.html(JSON.stringify(themeParams, null, 2));
 
     Telegram?.WebApp.MainButton
-        .setText('CLOSE WEBVIEW')
+        .setText('Send data')
         .show()
-        .onClick(function(){ webviewClose(); });
+        .onClick(function(){ sendData(); });
 
     Telegram?.WebApp.onEvent('themeChanged', function() {
         if (document.querySelector('#themeData')?.innerHTML) {
@@ -132,9 +130,7 @@
         return id;
     }
 
-    async function submit(ev) {
-        ev.preventDefault()
-
+    async function sendData() {
         const expensesDescription = document.getElementById('expenses_description')?.value;
         const expensesAmount = document.getElementById('expenses_amount')?.value;
 
@@ -168,17 +164,15 @@
         console.log('data', data);
     }
 
-    document.getElementById('expenses_form').addEventListener('submit', submit)
-
     async function getCurrencies() {
         const res = await fetch(SERVER_ENDPOINT + '/api/currencies/', {})
         const currencies = await res.json();
 
         document.getElementById('expenses_currencies_dropdown').innerHTML = currencies.reduce((acc, currency) => acc + `
-            <div class="relative flex items-start rounded-md hover:bg-gray-100">
+            <div class="relative flex items-start rounded-md hover:bg-gray-100 dark:hover:bg-gray-700">
                 <label for="radio_currency_${currency.id}" class="flex items-center w-full py-3 px-3 gap-3">
-                    <input value="${currency.id}" id="radio_currency_${currency.id}" name="currency" type="radio" class="border-gray-200 rounded-full text-blue-600 focus:ring-blue-500">
-                    <span class="block text-sm font-semibold text-gray-800">${currency.symbol} ${currency.name}</span>
+                    <input value="${currency.id}" id="radio_currency_${currency.id}" name="currency" type="radio" class="border-gray-200 rounded-full text-blue-600 focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800">
+                    <span class="block text-sm font-semibold text-gray-800 dark:text-gray-300">${currency.symbol} ${currency.name}</span>
                 </label>
             </div>
         ` ,``)
@@ -200,20 +194,16 @@
         const chats = await res.json();
 
         document.getElementById('expenses_chats_dropdown').innerHTML = chats.reduce((acc, chat) => acc + `
-            <div class="relative flex items-start rounded-md hover:bg-gray-100">
+            <div class="relative flex items-start rounded-md hover:bg-gray-100 dark:hover:bg-gray-700">
                 <label for="radio_chat_${chat.id}" class="flex items-center w-full py-3 px-3 gap-3">
-                    <input value="${chat.id}" id="radio_chat_${chat.id}" name="chat" type="radio" class="border-gray-200 rounded-full text-blue-600 focus:ring-blue-500">
-                    <span class="block text-sm font-semibold text-gray-800">${chat.title}</span>
+                    <input value="${chat.id}" id="radio_chat_${chat.id}" name="chat" type="radio" class="border-gray-200 rounded-full text-blue-600 focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800">
+                    <span class="block text-sm font-semibold text-gray-800 dark:text-gray-300">${chat.title}</span>
                 </label>
             </div>
         ` ,``)
     }
 
     getChats();
-
-    function webviewClose() {
-        Telegram.WebApp.close();
-    }
 </script>
 <script src="./build/preline/dist/preline.js"></script>
 </body>
