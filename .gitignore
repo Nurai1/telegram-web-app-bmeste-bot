@@ -1,8 +1,10 @@
 .idea
-node_modules
 .DS_Store
-*.local
-.eslintcache
-coverage
-.nyc_output
-.stylelintcache
+node_modules
+
+# !node_modules/
+# node_modules/*
+# !node_modules/preline/
+# node_modules/preline/*
+# !node_modules/preline/dist/
+# !node_modules/preline/plugin.js

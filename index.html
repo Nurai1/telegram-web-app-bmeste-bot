@@ -17,7 +17,6 @@
         }
         Telegram.WebApp.onEvent('themeChanged', setThemeClass);
         setThemeClass();
-
     </script>
     <link rel="stylesheet" href="build/output.css"/>
     <style>
@@ -35,147 +34,15 @@
             color: var(--tg-theme-link-color, #2678b6);
         }
 
-        button {
+        button, button[type="submit"] {
             display: block;
             width: 100%;
             font-size: 14px;
-            margin: 15px 0;
             padding: 12px 20px;
-            border: none;
             border-radius: 4px;
             background-color: var(--tg-theme-button-color, #50a8eb);
             color: var(--tg-theme-button-text-color, #ffffff);
             cursor: pointer;
-        }
-
-        button[disabled] {
-            opacity: 0.6;
-            cursor: auto;
-            pointer-events: none;
-        }
-
-        button.close_btn {
-            /*position: fixed;*/
-            position: absolute;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            border-radius: 0;
-            margin: 0;
-            padding: 16px 20px;
-            text-transform: uppercase;
-        }
-
-        section {
-            padding: 15px 15px 65px;
-            text-align: center;
-        }
-
-        p {
-            margin: 40px 0 15px;
-        }
-
-        ul {
-            text-align: left;
-        }
-
-        li {
-            color: var(--tg-theme-hint-color, #a8a8a8);
-        }
-
-        textarea {
-            width: 100%;
-            box-sizing: border-box;
-            padding: 7px;
-        }
-
-        pre {
-            background: rgba(0, 0, 0, .07);
-            border-radius: 4px;
-            padding: 4px;
-            margin: 7px 0;
-            word-break: break-all;
-            word-break: break-word;
-            white-space: pre-wrap;
-            text-align: left;
-        }
-
-        .dark pre {
-            background: rgba(255, 255, 255, .15);
-        }
-
-        .hint {
-            font-size: .8em;
-            color: var(--tg-theme-hint-color, #a8a8a8);
-        }
-
-        .ok {
-            color: green;
-        }
-
-        .err {
-            color: red;
-        }
-
-        #fixed_wrap {
-            position: fixed;
-            left: 0;
-            right: 0;
-            top: 0;
-            transform: translateY(100vh);
-        }
-
-        .viewport_border,
-        .viewport_stable_border {
-            position: fixed;
-            left: 0;
-            right: 0;
-            top: 0;
-            height: var(--tg-viewport-height, 100vh);
-            pointer-events: none;
-        }
-
-        .viewport_stable_border {
-            height: var(--tg-viewport-stable-height, 100vh);
-        }
-
-        .viewport_border:before,
-        .viewport_stable_border:before {
-            content: attr(text);
-            display: inline-block;
-            position: absolute;
-            background: gray;
-            right: 0;
-            top: 0;
-            font-size: 7px;
-            padding: 2px 4px;
-            vertical-align: top;
-        }
-
-        .viewport_stable_border:before {
-            background: green;
-            left: 0;
-            right: auto;
-        }
-
-        .viewport_border:after,
-        .viewport_stable_border:after {
-            content: '';
-            display: block;
-            position: absolute;
-            left: 0;
-            right: 0;
-            top: 0;
-            bottom: 0;
-            border: 2px dashed gray;
-        }
-
-        .viewport_stable_border:after {
-            border-color: green;
-        }
-
-        small {
-            font-size: 12px;
         }
     </style>
 </head>
@@ -183,91 +50,171 @@
 <body>
 
 <section>
-    <h1 id="greeting"></h1>
+    <form id="expenses_form" class="p-4">
+        <label class="block mt-3">
+            Chats
+            <div id="expenses_chats" class="w-full hs-dropdown relative inline-flex" data-hs-dropdown-auto-close="inside">
+                <button id="hs-dropdown-item-checkbox" type="button" class="hs-dropdown-toggle py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-gray-200 font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm">
+                    Select chat
+                    <svg class="hs-dropdown-open:rotate-180 w-2.5 h-2.5 text-gray-600" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M2 5L8.16086 10.6869C8.35239 10.8637 8.64761 10.8637 8.83914 10.6869L15 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                </button>
+            
+                <div id="expenses_chats_dropdown" class="z-20 hs-dropdown-menu transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 hidden min-w-[15rem] bg-white shadow-md rounded-lg p-2 mt-2 dark:bg-gray-800 dark:border dark:border-gray-700">
+                </div>
+            </div>
+        </label>
 
-    <label for="transaction_description">Description</label>
-    <textarea id="transaction_description" cols="30" rows="3" onchange="saveTransactionDescription(this)"></textarea>
 
-    <label for="transaction_description">Amount</label>
-    <input type="number"  onChange="saveAmount(this)"/>
+        <label class="block mt-3">
+            Description
+            <textarea id="expenses_description" cols="30" rows="3" class="border py-3 px-4 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500" rows="3" placeholder="Enter description"></textarea>
+        </label>
+        <label class="block mt-3">
+            Amount
+            <input id="expenses_amount" type="number" class="border py-3 px-4 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500">
+        </label>
+        <label class="block mt-3">
+            Currencies
+            <div id="expenses_currencies" class="w-full hs-dropdown relative inline-flex" data-hs-dropdown-auto-close="inside">
+                <button id="hs-dropdown-item-checkbox" type="button" class="hs-dropdown-toggle py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-gray-200 font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm">
+                    Select currency
+                    <svg class="hs-dropdown-open:rotate-180 w-2.5 h-2.5 text-gray-600" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M2 5L8.16086 10.6869C8.35239 10.8637 8.64761 10.8637 8.83914 10.6869L15 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                </button>
+            
+                <div id="expenses_currencies_dropdown" class="hs-dropdown-menu transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 hidden min-w-[15rem] bg-white shadow-md rounded-lg p-2 mt-2 dark:bg-gray-800 dark:border dark:border-gray-700" aria-labelledby="hs-dropdown-item-checkbox">
+                </div>
+            </div>
+        </label>
 
-    <div id="buttons" class="opacity-0">
-        <button onclick="toggleMainButton(this);">Hide Main Button</button>
-        <small>(It hides/shows main button)</small>
-        <button id="btnTime" onclick="sendTime(10);">Send time</button>
-        <small>(The bot will recieve a message with filled <code>web_app_data</code> field)</small>
-        <button id="submit" onclick="sendData()">Record data</button>
-
-    </div>
-
-    <h3>Init Data: </h3>
-    <pre id="initData"></pre>
-    <h3>Init Data (unsafe): </h3>
-    <pre id="initDataUnsafe"></pre>
+        <div id="error-message" class="text-red-500 my-4 bg-red-200 rounded"></div>
+        <button type="submit" class="mt-4">Send data</button>
+    </form>
 </section>
 
 <script type="application/javascript">
     const SERVER_ENDPOINT = 'https://3.83.67.15.sslip.io';
 
-    Telegram.WebApp.ready();
+    Telegram?.WebApp?.ready();
 
-    const initDataUnsafe = Telegram.WebApp.initDataUnsafe || {};
-    const userId = Telegram.WebApp.initDataUnsafe.user.id;
+    const initData = Telegram?.WebApp?.initData || "";
+    const initDataUnsafe = Telegram?.WebApp?.initDataUnsafe || {};
+    const themeParams = Telegram?.WebApp?.themeParams || {};
+    const userId = initDataUnsafe?.user?.id;
 
-    document.querySelector('#greeting').innerHTML = `Hi, ${initDataUnsafe.user.first_name}!`;
-    document.querySelector('#initDataUnsafe').innerHTML = JSON.stringify(initDataUnsafe, null, 2);
-    document.querySelector('#themeData').html(JSON.stringify(Telegram.WebApp.themeParams, null, 2));
+    document.querySelector('#themeData')?.html(JSON.stringify(themeParams, null, 2));
 
-    Telegram.WebApp.MainButton
+    Telegram?.WebApp.MainButton
         .setText('CLOSE WEBVIEW')
         .show()
         .onClick(function(){ webviewClose(); });
 
-    Telegram.WebApp.onEvent('themeChanged', function() {
-        document.querySelector('#themeData').innerHTML = JSON.stringify(Telegram.WebApp.themeParams, null, 2);
+    Telegram?.WebApp.onEvent('themeChanged', function() {
+        if (document.querySelector('#themeData')?.innerHTML) {
+            document.querySelector('#themeData').innerHTML = JSON.stringify(themeParams, null, 2);
+        }
     });
 
-    const state = {};
+    function getCheckedFromDropdown(inputsName) {
+        let id;
 
-    function saveTransactionDescription(element) {
-        state.description = element.value || ''
-    }
-
-
-    function sendAmount(element) {
-        state.amount = element.value || 0
-    }
-
-    // /api/chats/?user_id=143871296
-    // /api/currencies/?user_id=143871296
-
-    async function sendData() {
-        const res = await fetch(SERVER_ENDPOINT + '/api/currencies/', {
-        })
-        const data = await res.json();
-    }
-
-    function toggleMainButton(el) {
-        const mainButton = Telegram.WebApp.MainButton;
-        if (mainButton.isVisible) {
-            mainButton.hide();
-            el.innerHTML = 'Show Main Button';
-        } else {
-            mainButton.show();
-            el.innerHTML = 'Hide Main Button';
+        const inputs= document.getElementsByName(inputsName);
+            
+        for (i = 0; i < inputs.length; i++) {
+            if (inputs[i].checked) {
+                id = inputs[i].id;
+            }
         }
+
+        return id;
     }
+
+    async function submit(ev) {
+        ev.preventDefault()
+
+        const expensesDescription = document.getElementById('expenses_description')?.value;
+        const expensesAmount = document.getElementById('expenses_amount')?.value;
+
+        const expensesCurrencyId = getCheckedFromDropdown('currency');
+        const expensesChatId = getCheckedFromDropdown('chat');
+
+        if (!expensesCurrencyId || !expensesChatId) {
+            const errorMessageEl = document.getElementById('error-message');
+            errorMessageEl.innerHTML = '<div class="p-4">Please, fill all fields above.</div>'
+            return;
+        }
+
+        const body = {
+            _auth: initData,
+
+            description: expensesDescription,
+            amount: expensesAmount,
+            currency: expensesCurrencyId.slice(-(expensesCurrencyId.length - "radio_currency_".length)),
+            chat: expensesChatId.slice(-(expensesChatId.length - "radio_chat_".length)),
+        };
+
+        const res = await fetch(SERVER_ENDPOINT + '/api/createTransaction', {
+            method: 'POST',
+            body: JSON.stringify(body),
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        });
+
+        const data = await res.json();
+        console.log('data', data);
+    }
+
+    document.getElementById('expenses_form').addEventListener('submit', submit)
+
+    async function getCurrencies() {
+        const res = await fetch(SERVER_ENDPOINT + '/api/currencies/', {})
+        const currencies = await res.json();
+
+        document.getElementById('expenses_currencies_dropdown').innerHTML = currencies.reduce((acc, currency) => acc + `
+            <div class="relative flex items-start rounded-md hover:bg-gray-100">
+                <label for="radio_currency_${currency.id}" class="flex items-center w-full py-3 px-3 gap-3">
+                    <input value="${currency.id}" id="radio_currency_${currency.id}" name="currency" type="radio" class="border-gray-200 rounded-full text-blue-600 focus:ring-blue-500">
+                    <span class="block text-sm font-semibold text-gray-800">${currency.symbol} ${currency.name}</span>
+                </label>
+            </div>
+        ` ,``)
+
+        await getCurrentCurrency()
+    }
+
+    getCurrencies();
+
+    async function getCurrentCurrency() {
+        const res = await fetch(SERVER_ENDPOINT + '/api/currencies/?user_id=' + userId, {})
+        const currency = await res.json();
+
+        document.getElementById('radio_currency_' + currency.id).checked = true;
+    }
+
+    async function getChats() {
+        const res = await fetch(SERVER_ENDPOINT + '/api/chats/?user_id=' + userId, {})
+        const chats = await res.json();
+
+        document.getElementById('expenses_chats_dropdown').innerHTML = chats.reduce((acc, chat) => acc + `
+            <div class="relative flex items-start rounded-md hover:bg-gray-100">
+                <label for="radio_chat_${chat.id}" class="flex items-center w-full py-3 px-3 gap-3">
+                    <input value="${chat.id}" id="radio_chat_${chat.id}" name="chat" type="radio" class="border-gray-200 rounded-full text-blue-600 focus:ring-blue-500">
+                    <span class="block text-sm font-semibold text-gray-800">${chat.title}</span>
+                </label>
+            </div>
+        ` ,``)
+    }
+
+    getChats();
 
     function webviewClose() {
         Telegram.WebApp.close();
     }
-
-    function sendTime(spam) {
-        const repeat = spam ? 10 : 1;
-        for (let i = 0; i < repeat; i++) {
-            Telegram.WebApp.sendData(new Date().toString());
-        }
-    }
 </script>
+<script src="./build/preline/dist/preline.js"></script>
 </body>
 </html>
