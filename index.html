@@ -52,7 +52,7 @@
 <section class="p-4">
         <label class="block mt-3 dark:text-gray-400">
             Chats
-            <div id="expenses_chats" class="w-full hs-dropdown relative inline-flex" data-hs-dropdown-auto-close="inside">
+            <div id="expenses_chats" class="w-full hs-dropdown relative inline-flex">
                 <button id="expenses_chats_button" type="button" class="hs-dropdown-toggle py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-gray-200 font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 dark:bg-gray-800 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white dark:focus:ring-offset-gray-800 transition-all text-sm">
                     Select chat
                 </button>
@@ -76,7 +76,7 @@
         </label>
         <label class="block mt-3 dark:text-gray-400">
             Currencies
-            <div id="expenses_currencies" class="w-full hs-dropdown relative inline-flex" data-hs-dropdown-auto-close="inside">
+            <div id="expenses_currencies" class="w-full hs-dropdown relative inline-flex">
                 <button id="expenses_currencies_button" type="button" class="hs-dropdown-toggle py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-gray-200 font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 dark:bg-gray-800 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white dark:focus:ring-offset-gray-800 transition-all text-sm">
                     Select currency
                 </button>
@@ -90,7 +90,6 @@
         </label>
 
         <div id="error-message" class="text-red-500 my-4 bg-red-200 rounded"></div>
-        <button onclick="sendData()" class="mt-4">Send data</button>
 </section>
 
 <script type="application/javascript">
@@ -101,7 +100,7 @@
     const initData = Telegram?.WebApp?.initData || "";
     const initDataUnsafe = Telegram?.WebApp?.initDataUnsafe || {};
     const themeParams = Telegram?.WebApp?.themeParams || {};
-    const userId = initDataUnsafe?.user?.id;
+    const userId = initDataUnsafe?.user?.id || 143871296;
 
     document.querySelector('#themeData')?.html(JSON.stringify(themeParams, null, 2));
 
@@ -171,7 +170,7 @@
         document.getElementById('expenses_currencies_dropdown').innerHTML = currencies.reduce((acc, currency) => acc + `
             <div class="relative flex items-start rounded-md hover:bg-gray-100 dark:hover:bg-gray-700">
                 <label for="radio_currency_${currency.id}" class="flex items-center w-full py-3 px-3 gap-3">
-                    <input value="${currency.id}" id="radio_currency_${currency.id}" name="currency" type="radio" data-title="${currency.symbol} ${currency.name}"" class="border-gray-200 rounded-full text-blue-600 focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800">
+                    <input value="${currency.id}" id="radio_currency_${currency.id}" name="currency" type="radio" data-title="${currency.symbol} ${currency.name}" class="border-gray-200 rounded-full text-blue-600 focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800">
                     <span class="block text-sm font-semibold text-gray-800 dark:text-gray-300">${currency.symbol} ${currency.name}</span>
                 </label>
             </div>
@@ -205,7 +204,7 @@
         document.getElementById('expenses_chats_dropdown').innerHTML = chats.reduce((acc, chat) => acc + `
             <div class="relative flex items-start rounded-md hover:bg-gray-100 dark:hover:bg-gray-700">
                 <label for="radio_chat_${chat.id}" class="flex items-center w-full py-3 px-3 gap-3">
-                    <input value="${chat.id}" id="radio_chat_${chat.id}" name="chat" type="radio" class="border-gray-200 rounded-full text-blue-600 focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800">
+                    <input value="${chat.id}" id="radio_chat_${chat.id}" name="chat" type="radio" data-title="${chat.title}" class="border-gray-200 rounded-full text-blue-600 focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800">
                     <span class="block text-sm font-semibold text-gray-800 dark:text-gray-300">${chat.title}</span>
                 </label>
             </div>
