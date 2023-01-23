@@ -68,7 +68,7 @@
 
         <label class="block mt-3 dark:text-gray-400">
             Description
-            <textarea id="expenses_description" cols="30" rows="3" class="border py-3 px-4 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400" rows="3" placeholder="Enter description"></textarea>
+            <textarea id="expenses_description" cols="30" rows="1" class="border py-3 px-4 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400" rows="3" placeholder="Enter description"></textarea>
         </label>
         <label class="block mt-3 dark:text-gray-400">
             Amount
@@ -203,7 +203,7 @@
         const chats = await res.json();
 
         document.getElementById('expenses_chats_dropdown').innerHTML = chats.reduce((acc, chat) => acc + `
-            <div class="relative flex items-start rounded-md hover:bg-gray-100 dark:hover:bg-gray-700" onclick>
+            <div class="relative flex items-start rounded-md hover:bg-gray-100 dark:hover:bg-gray-700">
                 <label for="radio_chat_${chat.id}" class="flex items-center w-full py-3 px-3 gap-3">
                     <input value="${chat.id}" id="radio_chat_${chat.id}" name="chat" type="radio" data-title="${chat.title}" class="border-gray-200 rounded-full text-blue-600 focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800">
                     <span class="block text-sm font-semibold text-gray-800 dark:text-gray-300">${chat.title}</span>
