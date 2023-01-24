@@ -52,41 +52,24 @@
 <section class="p-4">
         <label class="block mt-3 dark:text-gray-400">
             Chats
-            <div id="expenses_chats" class="w-full hs-dropdown relative inline-flex">
-                <button id="expenses_chats_button" type="button" class="hs-dropdown-toggle py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-gray-200 font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 dark:bg-gray-800 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white dark:focus:ring-offset-gray-800 transition-all text-sm">
-                    Select chat
-                </button>
-                <svg class="hs-dropdown-open:rotate-180 w-2.5 h-2.5 text-gray-600 absolute right-[20px] top-[43%]" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M2 5L8.16086 10.6869C8.35239 10.8637 8.64761 10.8637 8.83914 10.6869L15 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                </svg>
-            
-                <div id="expenses_chats_dropdown" class="z-20 hs-dropdown-menu transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 hidden min-w-[15rem] bg-white shadow-md rounded-lg p-2 mt-2 dark:bg-gray-800 dark:border dark:border-gray-700" aria-labelledby="expenses_currencies_button">
-                </div>
-            </div>
+            <select name="expenses_chat" id="expenses_chats_select" class="w-full relative py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-gray-200 font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 dark:bg-gray-800 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white dark:focus:ring-offset-gray-800 text-sm">
+            </select>
         </label>
-
 
         <label class="block mt-3 dark:text-gray-400">
             Description
             <textarea id="expenses_description" cols="30" rows="1" class="border py-3 px-4 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400" rows="3" placeholder="Enter description"></textarea>
         </label>
+
         <label class="block mt-3 dark:text-gray-400">
             Amount
             <input id="expenses_amount" type="number" class="border py-3 px-4 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400">
         </label>
+
         <label class="block mt-3 dark:text-gray-400">
             Currencies
-            <div id="expenses_currencies" class="w-full hs-dropdown relative inline-flex">
-                <button id="expenses_currencies_button" type="button" class="hs-dropdown-toggle py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-gray-200 font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 dark:bg-gray-800 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white dark:focus:ring-offset-gray-800 transition-all text-sm">
-                    Select currency
-                </button>
-                <svg class="hs-dropdown-open:rotate-180 w-2.5 h-2.5 text-gray-600 absolute right-[20px] top-[43%]" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M2 5L8.16086 10.6869C8.35239 10.8637 8.64761 10.8637 8.83914 10.6869L15 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                </svg>
-            
-                <div id="expenses_currencies_dropdown" class="hs-dropdown-menu transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 hidden min-w-[15rem] bg-white shadow-md rounded-lg p-2 mt-2 dark:bg-gray-800 dark:border dark:border-gray-700" aria-labelledby="expenses_currencies_button">
-                </div>
-            </div>
+            <select name="expenses_currency" id="expenses_currencies_select" class="w-full relative py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-gray-200 font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 dark:bg-gray-800 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white dark:focus:ring-offset-gray-800 text-sm">
+            </select>
         </label>
 
         <div id="error-message" class="text-red-500 my-4 bg-red-200 rounded"></div>
@@ -115,30 +98,20 @@
         }
     });
 
-    function getCheckedFromDropdown(inputsName) {
-        let id;
-
-        const inputs= document.getElementsByName(inputsName);
-            
-        for (i = 0; i < inputs.length; i++) {
-            if (inputs[i].checked) {
-                id = inputs[i].id;
-            }
-        }
-
-        return id;
+    function setErrorMessage(message) {
+        const errorMessageEl = document.getElementById('error-message');
+        errorMessageEl.innerHTML = `<div class="p-4">${message}</div>`
     }
 
     async function sendData() {
         const expensesDescription = document.getElementById('expenses_description')?.value;
         const expensesAmount = document.getElementById('expenses_amount')?.value;
 
-        const expensesCurrencyId = getCheckedFromDropdown('currency');
-        const expensesChatId = getCheckedFromDropdown('chat');
+        const expensesCurrencyId = document.getElementById('expenses_currencies_select')?.value;
+        const expensesChatId = document.getElementById('expenses_chats_select')?.value;
 
-        if (!expensesCurrencyId || !expensesChatId) {
-            const errorMessageEl = document.getElementById('error-message');
-            errorMessageEl.innerHTML = '<div class="p-4">Please, fill all fields above.</div>'
+        if (!expensesCurrencyId || !expensesChatId || !expensesDescription || !expensesAmount) {
+            setErrorMessage('Please, fill all fields above.')
             return;
         }
 
@@ -147,8 +120,8 @@
 
             description: expensesDescription,
             amount: expensesAmount,
-            currency: expensesCurrencyId.slice(-(expensesCurrencyId.length - "radio_currency_".length)),
-            chat: expensesChatId.slice(-(expensesChatId.length - "radio_chat_".length)),
+            currency: expensesCurrencyId,
+            chat: expensesChatId,
         };
 
         const res = await fetch(SERVER_ENDPOINT + '/api/createTransaction', {
@@ -160,69 +133,52 @@
         });
 
         const data = await res.json();
-        console.log('data', data);
     }
 
     async function getCurrencies() {
         const res = await fetch(SERVER_ENDPOINT + '/api/currencies/', {})
         const currencies = await res.json();
+        const chosenCurrency = await getCurrentCurrency()
 
-        document.getElementById('expenses_currencies_dropdown').innerHTML = currencies.reduce((acc, currency) => acc + `
-            <div class="relative flex items-start rounded-md hover:bg-gray-100 dark:hover:bg-gray-700">
-                <label for="radio_currency_${currency.id}" class="flex items-center w-full py-3 px-3 gap-3">
-                    <input value="${currency.id}" id="radio_currency_${currency.id}" name="currency" type="radio" data-title="${currency.symbol} ${currency.name}" class="border-gray-200 rounded-full text-blue-600 focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800">
-                    <span class="block text-sm font-semibold text-gray-800 dark:text-gray-300">${currency.symbol} ${currency.name}</span>
-                </label>
-            </div>
+        document.getElementById('expenses_currencies_select').innerHTML = currencies.reduce((acc, currency) => acc + `
+            <option value="${currency.id}" ${chosenCurrency.id === currency.id ? 'selected="selected"' : ''}>
+                ${currency.symbol} ${currency.name}
+            </option>
         ` ,``)
-
-        function onChange(ev) {
-            const checkedTitle = ev.target.getAttribute("data-title")
-            document.getElementById('expenses_currencies_button').innerHTML = checkedTitle
-        }
-
-        currencies.forEach(currency => {
-            document.getElementById(`radio_currency_${currency.id}`).addEventListener('change', onChange)
-        })    
-
-        await getCurrentCurrency()
     }
 
     getCurrencies();
 
     async function getCurrentCurrency() {
         const res = await fetch(SERVER_ENDPOINT + '/api/currencies/?user_id=' + userId, {})
-        const currency = await res.json();
 
-        document.getElementById('radio_currency_' + currency.id).checked = true;
-        document.getElementById('expenses_currencies_button').innerHTML = `${currency.symbol} ${currency.name}`
+        if (!res.ok) {
+            setErrorMessage('Some error occurred on current currency request.')
+            return {}
+        }
+        const currency = await res.json()
+
+        return currency
     }
 
     async function getChats() {
         const res = await fetch(SERVER_ENDPOINT + '/api/chats/?user_id=' + userId, {})
-        const chats = await res.json();
 
-        document.getElementById('expenses_chats_dropdown').innerHTML = chats.reduce((acc, chat) => acc + `
-            <div class="relative flex items-start rounded-md hover:bg-gray-100 dark:hover:bg-gray-700">
-                <label for="radio_chat_${chat.id}" class="flex items-center w-full py-3 px-3 gap-3">
-                    <input value="${chat.id}" id="radio_chat_${chat.id}" name="chat" type="radio" data-title="${chat.title}" class="border-gray-200 rounded-full text-blue-600 focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800">
-                    <span class="block text-sm font-semibold text-gray-800 dark:text-gray-300">${chat.title}</span>
-                </label>
-            </div>
-        ` ,``)
-
-        function onChange(ev) {
-            const checkedTitle = ev.target.getAttribute("data-title")
-            document.getElementById('expenses_chats_button').innerHTML = checkedTitle
+        if (!res.ok) {
+            setErrorMessage('Some error occurred on chats request.')
+            return {}
         }
 
-        chats.forEach(chat => {
-            document.getElementById(`radio_chat_${chat.id}`).addEventListener('change', onChange)
-        })        
+        const chats = await res.json()
+        
+        document.getElementById('expenses_chats_select').innerHTML = chats.reduce((acc, chat) => acc + `
+            <option value="${chat.id}">
+                ${chat.title}
+            </option>
+        ` ,``)
     }
 
     getChats();
 </script>
-<script src="./build/preline/dist/preline.js"></script>
 </body>
 </html>

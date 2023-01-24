@@ -1,6 +1,4 @@
 ## build
-* preline folder is a full folder copy of npm "preline" package
-
 * output.css is the tailwind generated styles
 
 ## Befor edit the content do the following
